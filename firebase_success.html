@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> FireBase Successful In Mobile </title>
+    <style>
+      body {
+        display: flex;
+        min-height: 100vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      
+      #uploader {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 50%;
+        margin-bottom: 10px;
+color: blue;
+      }
+    </style>
+  </head>
+  <body>
+			<label for="names">Folder Name</label>
+    <input type="text" id="names">
+<br><br><br>
+    <progress value="0" max="100" id="uploader">0%</progress>
+<span id="show"></span>
+<br>
+    <input type="file" id="fileButton" value="upload" />
+
+<p> ID: rjsanto262@gmail.com <br> Build: Storage <br> Project: MySuccessfulMobile </p>
+    
+    
+  </body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-storage.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyDp1x3IMuhkMUjx-_KWi5L1d6p0egiZnkA",
+    authDomain: "mysuccesfulmobile.firebaseapp.com",
+    projectId: "mysuccesfulmobile",
+    storageBucket: "mysuccesfulmobile.appspot.com",
+    messagingSenderId: "1061235021315",
+    appId: "1:1061235021315:web:0190b1cc7302616acf6036",
+    measurementId: "G-JF8GHQ617W"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  
+  var uploader = document.getElementById('uploader');
+  var fileButton = document.getElementById('fileButton');
+  
+  
+  fileButton.addEventListener('change', function(e) {
+    var file = e.target.files[0];
+var folderName = document.getElementById('names').value;
+    var storageRef = firebase.storage().ref(folderName + '/' + file.name);
+    
+    
+    var task = storageRef.put(file);
+    
+    task.on('state_changed',
+    function(snapshot) {
+      var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+var show = percentage + "%";
+document.getElementById("show").innerHTML = show;
+      uploader.value = percentage;
+if(percentage==100) {
+alert("Successfully Uploaded");
+}
+    },
+    function error(err) {
+      
+    },
+    function complete() {
+      
+    }
+    );
+  });
+  
+
+</script>
+</html>
